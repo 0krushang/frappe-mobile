@@ -4,7 +4,7 @@ class FrappeConstants {
   static const String isLoggedInKey = 'frappe_is_logged_in';
   
   // API Endpoints
-  static const String loginEndpoint = '/api/method/login';
+  static const String loginEndpoint = '/api/method/checktrack_connector.auth.mobile_login';
   static const String logoutEndpoint = '/api/method/logout';
   static const String userInfoEndpoint = '/api/method/frappe.auth.get_logged_user';
   

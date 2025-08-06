@@ -9,7 +9,7 @@ class ApiService {
   ApiService._internal();
 
   final StorageService _storage = StorageService();
-  late Dio _dio;
+  Dio? _dio;
 
   // Initialize Dio
   Future<void> _initializeDio() async {
@@ -28,7 +28,7 @@ class ApiService {
     ));
 
     // Add interceptors
-    _dio.interceptors.add(
+    _dio!.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           // Add auth token if needed
@@ -56,7 +56,7 @@ class ApiService {
     );
 
     // Add logging interceptor in debug mode
-    _dio.interceptors.add(LogInterceptor(
+    _dio!.interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
       logPrint: (obj) => print(obj),
@@ -70,11 +70,11 @@ class ApiService {
     } else {
       // Update base URL if changed
       final siteUrl = await _storage.getSiteUrl();
-      if (_dio.options.baseUrl != siteUrl) {
-        _dio.options.baseUrl = siteUrl ?? '';
+      if (_dio!.options.baseUrl != siteUrl) {
+        _dio!.options.baseUrl = siteUrl ?? '';
       }
     }
-    return _dio;
+    return _dio!;
   }
 
   // Login API call

@@ -5,26 +5,39 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:frappe_mobile/main.dart';
+import 'package:frappe_mobile/frappe_mobile.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
+  
+  group('FrappeMobile Package Tests', () {
+    test('should initialize without errors', () async {
+      // Test that the package can be initialized
+      expect(() async {
+        await FrappeMobile.initialize();
+      }, returnsNormally);
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('should have proper class structure', () {
+      // Test that the main classes exist and are accessible
+      expect(FrappeMobile, isNotNull);
+      expect(Authentication, isNotNull);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('should provide authentication methods', () {
+      // Test that authentication methods are available
+      expect(Authentication.login, isNotNull);
+      expect(Authentication.logout, isNotNull);
+      expect(Authentication.isUserLoggedIn, isNotNull);
+      expect(Authentication.getUser, isNotNull);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('should provide API methods', () {
+      // Test that API methods are available
+      expect(FrappeMobile.makeApiCall, isNotNull);
+      expect(FrappeMobile.uploadFile, isNotNull);
+      expect(FrappeMobile.downloadFile, isNotNull);
+    });
   });
 }

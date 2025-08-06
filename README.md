@@ -1,1 +1,1 @@
-# frappe-mobile
+# frappe_mobile : a flutter package

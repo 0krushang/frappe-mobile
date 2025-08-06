@@ -12,7 +12,7 @@ class ApiService {
   Dio? _dio;
 
   // Initialize Dio
-  Future<void> _initializeDio() async {
+  Future<void> initializeDio() async {
     final siteUrl = await _storage.getSiteUrl();
     
     _dio = Dio(BaseOptions(
@@ -66,7 +66,7 @@ class ApiService {
   // Ensure Dio is initialized
   Future<Dio> _getDio() async {
     if (_dio == null) {
-      await _initializeDio();
+      await initializeDio();
     } else {
       // Update base URL if changed
       final siteUrl = await _storage.getSiteUrl();

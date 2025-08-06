@@ -14,23 +14,6 @@ class FrappeMobile {
   final StorageService _storage = StorageService();
   final ApiService _api = ApiService();
 
-  // Set site URL
-  static Future<void> setUrl(String siteUrl) async {
-    String formattedUrl = siteUrl;
-    
-    // Ensure URL doesn't end with slash
-    if (formattedUrl.endsWith('/')) {
-      formattedUrl = formattedUrl.substring(0, formattedUrl.length - 1);
-    }
-    
-    // Ensure URL starts with http or https
-    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
-      formattedUrl = 'https://$formattedUrl';
-    }
-    
-    await StorageService().storeSiteUrl(formattedUrl);
-  }
-
   // Get current site URL
   static Future<String?> getSiteUrl() async {
     return await StorageService().getSiteUrl();
@@ -110,10 +93,24 @@ class FrappeMobile {
   }
 
   // Initialize the package
-  static Future<void> initialize({String? siteUrl}) async {
-    if (siteUrl != null) {
-      await setUrl(siteUrl);
+  static Future<void> initialize({required String siteUrl}) async {
+    String formattedUrl = siteUrl;
+    
+    // Ensure URL doesn't end with slash
+    if (formattedUrl.endsWith('/')) {
+      formattedUrl = formattedUrl.substring(0, formattedUrl.length - 1);
     }
+    
+    // Ensure URL starts with http or https
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = 'https://$formattedUrl';
+    }
+    
+    // Store the formatted URL
+    await StorageService().storeSiteUrl(formattedUrl);
+    
+    // Initialize Dio in API service
+    await ApiService().initializeDio();
   }
 }
 

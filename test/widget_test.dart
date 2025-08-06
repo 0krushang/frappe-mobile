@@ -15,7 +15,7 @@ void main() {
     test('should initialize without errors', () async {
       // Test that the package can be initialized
       expect(() async {
-        await FrappeMobile.initialize();
+        await FrappeMobile.initialize(siteUrl: 'https://test.example.com');
       }, returnsNormally);
     });
 

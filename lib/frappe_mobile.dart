@@ -1,14 +1,21 @@
-/// Frappe Mobile - Flutter package for Frappe Framework integration
 library frappe_mobile;
 
-// Export main classes
-export 'src/frappe_mobile_core.dart';
-export 'src/models/frappe_user.dart';
+export 'src/core/frappe_mobile_core.dart';
 
-// Export services for advanced usage
+export 'src/core/features/frappe_auth.dart';
+export 'src/core/features/frappe_storage.dart';
+
+export 'src/models/user/frappe_user.dart';
+
 export 'src/services/authentication_service.dart';
 export 'src/services/storage_service.dart';
-export 'src/services/api_service.dart';
 
-// Export constants
+export 'src/api/services/auth_api_service.dart';
+
+export 'src/api/client/api_client.dart';
+export 'src/api/client/api_interceptor.dart';
+export 'src/api/api_endpoints.dart';
+
 export 'src/utils/constants.dart';
+export 'src/utils/exceptions.dart';
+export 'src/utils/validators.dart';

@@ -12,3 +12,7 @@ export 'src/services/api_service.dart';
 
 // Export constants
 export 'src/utils/constants.dart';
+
+export 'src/models/bar_item.dart';
+export 'src/services/frappe_api_service.dart';
+export 'src/Widget/dynamic_bottom_bar.dart';

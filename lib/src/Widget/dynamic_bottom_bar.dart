@@ -3,7 +3,7 @@ import '../models/bar_item.dart';
 
 class DynamicBottomBar extends StatelessWidget {
   /// List of navigation items
-  final List<BottomBarItem> items;
+  final List<dynamic> items;
 
   /// Currently selected index
   final int currentIndex;
@@ -32,8 +32,8 @@ class DynamicBottomBar extends StatelessWidget {
   /// Custom icon builder for more control over icons
   final Widget Function(BottomBarItem item, bool isSelected)? iconBuilder;
 
-  /// Custom label builder for more control over labels
-  final Widget Function(BottomBarItem item, bool isSelected)? labelBuilder;
+  /// Custom label text builder for more control over labels
+  final String Function(BottomBarItem item, bool isSelected)? labelBuilder;
 
   /// Text style for selected labels
   final TextStyle? selectedLabelStyle;
@@ -114,13 +114,14 @@ class DynamicBottomBar extends StatelessWidget {
 
   /// Default icon mapping for common icon names
   IconData _getIconData(String iconName, {bool isSelected = false}) {
+
     final baseIconMap = {
       'home': Icons.home_outlined,
       'task': Icons.assignment_outlined,
       'person': Icons.person_outline,
       'project': Icons.bar_chart_outlined,
       'notifications': Icons.notifications_outlined,
-      'messages':Icons.message_outlined,
+      'messages': Icons.message_outlined,
       'search': Icons.search_outlined,
       'settings': Icons.settings_outlined,
       'favorite': Icons.favorite_outline,
@@ -148,18 +149,16 @@ class DynamicBottomBar extends StatelessWidget {
     );
   }
 
-  /// Build default label widget
-  Widget _buildDefaultLabel(BottomBarItem item, bool isSelected) {
-    return Text(
-      item.title,
-      style: isSelected ? selectedLabelStyle : unselectedLabelStyle,
-    );
+  /// Build default label text
+  String _buildDefaultLabel(BottomBarItem item, bool isSelected) {
+    return labelBuilder?.call(item, isSelected) ?? item.title;
   }
 
   /// Build tooltip text
   String _buildTooltip(BottomBarItem item) {
     return tooltipBuilder?.call(item) ?? item.title;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -169,6 +168,7 @@ class DynamicBottomBar extends StatelessWidget {
 
     final theme = Theme.of(context);
     final navigationBarTheme = theme.navigationBarTheme;
+    final effectiveIndicatorColor = indicatorColor ?? Colors.amber;
 
     Widget navigationBar = NavigationBar(
       selectedIndex: currentIndex.clamp(0, items.length - 1),
@@ -186,7 +186,7 @@ class DynamicBottomBar extends StatelessWidget {
       },
 
       // Visual properties
-      indicatorColor: indicatorColor ?? Colors.amber,
+      indicatorColor: effectiveIndicatorColor,
       backgroundColor: backgroundColor ?? navigationBarTheme.backgroundColor,
       elevation: elevation ?? navigationBarTheme.elevation,
       height: height,
@@ -216,13 +216,13 @@ class DynamicBottomBar extends StatelessWidget {
         final selectedIconWidget = iconBuilder?.call(item, true) ??
             _buildDefaultIcon(item, true);
 
-        // Build label
-        final labelWidget = labelBuilder?.call(item, isSelected);
+        // Build label text
+        final labelText = _buildDefaultLabel(item, isSelected);
 
         NavigationDestination destination = NavigationDestination(
           selectedIcon: selectedIconWidget,
           icon: iconWidget,
-          label: labelWidget?.toString() ?? item.title,
+          label: labelText,
           tooltip: showTooltips ? _buildTooltip(item) : null,
         );
 
@@ -345,6 +345,7 @@ class DynamicBottomBarTheme {
     required List<BottomBarItem> items,
     required int currentIndex,
     required Function(int) onTap,
+    bool useIndicatorColorForLabels = true,
   }) {
     return DynamicBottomBar(
       items: items,

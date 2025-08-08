@@ -9,34 +9,23 @@ class ApiEndpoints {
   // Authentication endpoints
   static const String login = '$_methodBase/checktrack_connector.auth.mobile_login';
   static const String logout = '$_methodBase/logout';
-  static const String getUserDetails = '$_resourceBase/User/{user_id}';
+  static const String _getUserDetails = '$_resourceBase/User/{user_id}';
 
-  // Form endpoints
-  static const String getForm = '$_resourceBase/{doctype}/{name}';
-  static const String saveForm = '$_resourceBase/{doctype}';
-  static const String updateForm = '$_resourceBase/{doctype}/{name}';
-  static const String deleteForm = '$_resourceBase/{doctype}/{name}';
-  static const String getFormMeta = '$_methodBase/frappe.desk.form.load.getdoc';
-  static const String getFormList = '$_methodBase/frappe.desk.reportview.get';
+  // Doctype endpoints
+  static const String _getDoctypeMetadata = '$_methodBase/frappe.desk.form.load.getdoctype?doctype={doctype}';
+  static const String _getDoctypeResource = '$_resourceBase/DocType/{doctype}';
   static const String getBottomBarConfig = '$_resourceBase/';
 
   // Utility methods
-  static String getFormEndpoint(String doctype, [String? name]) {
-    if (name != null) {
-      return getForm.replaceAll('{doctype}', doctype).replaceAll('{name}', name);
-    }
-    return saveForm.replaceAll('{doctype}', doctype);
+  static String getDoctypeMetadata(String doctype) {
+    return _getDoctypeMetadata.replaceAll('{doctype}', doctype);
   }
 
-  static String getUpdateFormEndpoint(String doctype, String name) {
-    return updateForm.replaceAll('{doctype}', doctype).replaceAll('{name}', name);
+  static String getDoctypeResource(String doctype) {
+    return _getDoctypeResource.replaceAll('{doctype}', doctype);
   }
 
-  static String getDeleteFormEndpoint(String doctype, String name) {
-    return deleteForm.replaceAll('{doctype}', doctype).replaceAll('{name}', name);
-  }
-
-  static String getUserDetailsEndpoint(String userId) {
-    return getUserDetails.replaceAll('{user_id}', userId);
+  static String getUserDetails(String userId) {
+    return _getUserDetails.replaceAll('{user_id}', userId);
   }
 }

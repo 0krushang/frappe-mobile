@@ -55,7 +55,7 @@ class AuthApiService {
   Future<Map<String, dynamic>> getUserDetails(String userId) async {
     try {
       final response = await _client.get(
-        ApiEndpoints.getUserDetailsEndpoint(userId),
+        ApiEndpoints.getUserDetails(userId),
         includeAuth: true,
       );
 

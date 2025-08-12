@@ -24,12 +24,12 @@ class ApiClient {
 
     _dio = Dio(BaseOptions(
       baseUrl: siteUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-      responseType: ResponseType.json,
-      followRedirects: true,
-      maxRedirects: 3,
+      connectTimeout: Duration(seconds: FrappeConstants.connectionTimeout),
+      receiveTimeout: Duration(seconds: FrappeConstants.receiveTimeout),
+      sendTimeout: Duration(seconds: FrappeConstants.sendTimeout),
+      responseType: FrappeConstants.responseType,
+      followRedirects: FrappeConstants.followRedirects,
+      maxRedirects: FrappeConstants.maxRedirects,
     ));
 
     _dio!.interceptors.add(ApiInterceptor());
@@ -65,14 +65,14 @@ class ApiClient {
       final requestOptions = (options ?? Options()).copyWith(
         extra: {
           ...(options?.extra ?? {}),
-          'includeAuth': includeAuth,
+          FrappeConstants.includeAuthKey: includeAuth,
         },
       );
 
       Response<T> response;
 
       switch (method.toUpperCase()) {
-        case 'GET':
+        case FrappeConstants.httpGet:
           response = await dio.get<T>(
             endpoint,
             queryParameters: queryParameters,
@@ -82,7 +82,7 @@ class ApiClient {
           );
           break;
 
-        case 'POST':
+        case FrappeConstants.httpPost:
           response = await dio.post<T>(
             endpoint,
             data: data,
@@ -94,7 +94,7 @@ class ApiClient {
           );
           break;
 
-        case 'PUT':
+        case FrappeConstants.httpPut:
           response = await dio.put<T>(
             endpoint,
             data: data,
@@ -106,7 +106,7 @@ class ApiClient {
           );
           break;
 
-        case 'DELETE':
+        case FrappeConstants.httpDelete:
           response = await dio.delete<T>(
             endpoint,
             data: data,
@@ -116,7 +116,7 @@ class ApiClient {
           );
           break;
 
-        case 'PATCH':
+        case FrappeConstants.httpPatch:
           response = await dio.patch<T>(
             endpoint,
             data: data,
@@ -130,7 +130,7 @@ class ApiClient {
 
         default:
           throw FrappeException(
-            message: 'Unsupported HTTP method: $method',
+            message: '${FrappeConstants.unsupportedMethodError}$method',
             type: FrappeExceptionType.invalidRequest,
           );
       }
@@ -140,7 +140,7 @@ class ApiClient {
       throw _handleDioException(e);
     } catch (e) {
       throw FrappeException(
-        message: 'Unexpected error: $e',
+        message: '${FrappeConstants.unexpectedError}$e',
         type: FrappeExceptionType.unknown,
       );
     }
@@ -165,7 +165,7 @@ class ApiClient {
 
       case DioExceptionType.badResponse:
         return FrappeException(
-          message: e.message ?? 'Server responded with an error',
+          message: e.message ?? FrappeConstants.serverResponseError,
           type: FrappeExceptionType.server,
           statusCode: e.response?.statusCode,
           responseData: e.response?.data,
@@ -200,7 +200,7 @@ class ApiClient {
   }) {
     return request<T>(
       endpoint: endpoint,
-      method: 'GET',
+      method: FrappeConstants.httpGet,
       queryParameters: queryParameters,
       options: options,
       includeAuth: includeAuth,
@@ -221,7 +221,7 @@ class ApiClient {
   }) {
     return request<T>(
       endpoint: endpoint,
-      method: 'POST',
+      method: FrappeConstants.httpPost,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -244,7 +244,7 @@ class ApiClient {
   }) {
     return request<T>(
       endpoint: endpoint,
-      method: 'PUT',
+      method: FrappeConstants.httpPut,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -265,7 +265,7 @@ class ApiClient {
   }) {
     return request<T>(
       endpoint: endpoint,
-      method: 'DELETE',
+      method: FrappeConstants.httpDelete,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -286,7 +286,7 @@ class ApiClient {
   }) {
     return request<T>(
       endpoint: endpoint,
-      method: 'PATCH',
+      method: FrappeConstants.httpPatch,
       data: data,
       queryParameters: queryParameters,
       options: options,

@@ -1,3 +1,5 @@
+import 'constants.dart';
+
 enum FrappeExceptionType {
   network,
   server,
@@ -109,28 +111,28 @@ class FrappeException implements Exception {
   String get userMessage {
     switch (type) {
       case FrappeExceptionType.network:
-        return 'Please check your internet connection and try again.';
+        return FrappeConstants.networkUserMessage;
       case FrappeExceptionType.authentication:
-        return 'Please log in again to continue.';
+        return FrappeConstants.authenticationUserMessage;
       case FrappeExceptionType.authorization:
-        return 'You don\'t have permission to perform this action.';
+        return FrappeConstants.authorizationUserMessage;
       case FrappeExceptionType.validation:
-        return 'Please check your input and try again.';
+        return FrappeConstants.validationUserMessage;
       case FrappeExceptionType.notFound:
-        return 'The requested resource was not found.';
+        return FrappeConstants.notFoundUserMessage;
       case FrappeExceptionType.server:
         if (statusCode != null && statusCode! >= 500) {
-          return 'Server is temporarily unavailable. Please try again later.';
+          return FrappeConstants.serverUserMessage;
         }
         return message;
       case FrappeExceptionType.cancelled:
-        return 'Request was cancelled.';
+        return FrappeConstants.cancelledUserMessage;
       case FrappeExceptionType.configuration:
-        return 'App configuration error. Please contact support.';
+        return FrappeConstants.configurationUserMessage;
       case FrappeExceptionType.storage:
-        return 'Local storage error. Please try again.';
+        return FrappeConstants.storageUserMessage;
       default:
-        return 'An unexpected error occurred. Please try again.';
+        return FrappeConstants.unknownUserMessage;
     }
   }
 

@@ -18,7 +18,6 @@ export 'src/api/api_endpoints.dart';
 
 export 'src/utils/constants.dart';
 export 'src/utils/exceptions.dart';
-export 'src/utils/validators.dart';
 
 export 'src/models/bar_item.dart';
 export 'src/api/services/bottom_bar_api_service.dart';

@@ -19,7 +19,7 @@ class ApiInterceptor extends Interceptor {
       options.headers.addAll({
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'User-Agent': 'FrappeMobile/${FrappeConstants.packageVersion}',
+        'User-Agent': FrappeConstants.userAgent,
       });
 
       handler.next(options);

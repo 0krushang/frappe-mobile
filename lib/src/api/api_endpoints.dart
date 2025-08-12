@@ -7,7 +7,7 @@ class ApiEndpoints {
   static const String _resourceBase = '$_apiBase/resource';
 
   // Authentication endpoints
-  static const String login = '$_methodBase/checktrack_connector.auth.mobile_login';
+  static const String login = '$_methodBase/frappe_mobile_connector.auth.mobile_login';
   static const String logout = '$_methodBase/logout';
   static const String _getUserDetails = '$_resourceBase/User/{user_id}';
 
